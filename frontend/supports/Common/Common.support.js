@@ -1,10 +1,3 @@
-import 'whatwg-fetch';
-
-let Mockup = null;
-if('production' !== process.env.NODE_ENV) {
-  Mockup=require('Mockup/Mockup.js');
-}
-
 // flatObject({a:'a1', b:{b1:'b1'}, c:{c1: 'c1'},
 //            {b: 1 } // 1 means ignore field 'b'
 //            {c: 2 } // 2 means spread field 'c'
@@ -41,57 +34,6 @@ function getRoutePath(p) {
   return ('production' !== process.env.NODE_ENV? '/':'/') + (p? p:'');
 }
 
-// {{ RESTful API
-function postJSON (url, data, optionalHeaders) {
-  // return promise
-  if('production' !== process.env.NODE_ENV) {
-    return Mockup.fakedFetch(url, 'POST', data, optionalHeaders);
-  }
-
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...optionalHeaders
-    },
-    body: JSON.stringify(data)
-  }).then(function(response) {
-    return response.json();
-  });
-}
-
-function getJSON(url, optionalHeaders) {
-  if(/\?/.test(url)) {
-    // work around ie cache issue
-    url += '&tm=' + new Date().getTime();
-  }
-  if('production' !== process.env.NODE_ENV) {
-    return Mockup.fakedFetch(url, 'GET', {}, optionalHeaders);
-  }
-  // return promise
-  return fetch(url, {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json', ...optionalHeaders}
-  }).then(function(response) {
-    return response.json();
-  });
-}
-
-function deleteJSON(url, optionalHeaders) {
-  if('production' !== process.env.NODE_ENV) {
-    return Mockup.fakedFetch(url, 'DELETE', {}, optionalHeaders);
-  }
-
-  // return promise
-  return fetch(url, {
-    method: 'DELETE',
-    headers: {...optionalHeaders}
-  }).then(function(response) {
-    return response.json();
-  });
-}
-// }}
-
 function trim(s) {
   return s.replace(/^[\s]+|[\s]+$/g, '');
 }
@@ -115,9 +57,6 @@ export {
   isEmpty,
   isIE,
   getRoutePath,
-  postJSON,
-  getJSON,
-  deleteJSON,
   trim,
   validatorRequired,
   validatorAlphaNumeric
