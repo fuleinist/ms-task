@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { LocalForm } from 'react-redux-form';
-import MSFormInput from 'MSFormInput/MSFormInput.js';
+import MSFormInput from 'components/Ui/MSFormInput/MSFormInput';
 import {
   getRoutePath,
-  postJSON
-} from 'CommonUtil/CommonUtil.js';
+  postJSON,
+} from 'services/Http/Http.service';
 import {
   Button,
-  Modal
+  Modal,
 } from 'react-bootstrap';
 
 import {
   validatorRequired,
-  validatorAlphaNumeric
-} from 'CommonUtil/CommonUtil.js';
+  validatorAlphaNumeric,
+} from 'supports/Common/Common.support';
 
 export class MyModal extends React.Component {
   constructor(props) {
@@ -23,12 +23,12 @@ export class MyModal extends React.Component {
     this.save = this.save.bind(this);
     this.formValidators = {
       username: { required: validatorRequired, alphaNumeric: validatorAlphaNumeric },
-      password: { required: validatorRequired }
+      password: { required: validatorRequired },
     };
     this.state = {
       username: '',
       password: '',
-      resultMessage: null
+      resultMessage: null,
     };
   }
 
@@ -37,13 +37,13 @@ export class MyModal extends React.Component {
   }
 
   save(values) {
-    let self = this;
+    const self = this;
     console.log('MyModal.js: MyModal.save called => ', 'values=', values);
-    this.props.loginNow(values).then(function(token) {
+    this.props.loginNow(values).then((token) => {
       console.log('MyModal.js: MyModal.save called => ', 'token=', token);
-      if(!token) {
+      if (!token) {
         self.setState({
-          resultMessage: 'Token is null. User name should be either `user1` or `user2`!'
+          resultMessage: 'Token is null. User name should be either `user1` or `user2`!',
         });
       } else {
         self.props.showNotificationMessage(`Operation is successful! Got token: ${token}`);
@@ -54,7 +54,7 @@ export class MyModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.showMyModal} onHide={ this.close }>
+      <Modal show={this.props.showMyModal} onHide={this.close}>
         <LocalForm
           model="user"
           validators={this.formValidators}
@@ -68,23 +68,25 @@ export class MyModal extends React.Component {
             <MSFormInput
               type="text"
               labelWidth={5}
-              messages={{required: 'Required', alphaNumeric: 'User name should be alphanumeric'}}
+              messages={{ required: 'Required', alphaNumeric: 'User name should be alphanumeric' }}
               model=".username"
-              autoFocus>
+              autoFocus
+            >
               User name *
             </MSFormInput>
             <MSFormInput
               type="password"
               labelWidth={5}
-              messages={{required: 'Required'}}
-              model=".password">
+              messages={{ required: 'Required' }}
+              model=".password"
+            >
               Password *
             </MSFormInput>
-            { this.state.resultMessage? <div style={{color:'red'}}>{this.state.resultMessage}</div>:null }
+            { this.state.resultMessage ? <div style={{ color: 'red' }}>{this.state.resultMessage}</div> : null }
           </Modal.Body>
           <Modal.Footer>
             <Button type="submit">OK</Button>
-            <Button onClick={ this.close }>Cancel</Button>
+            <Button onClick={this.close}>Cancel</Button>
           </Modal.Footer>
         </LocalForm>
       </Modal>
@@ -94,44 +96,40 @@ export class MyModal extends React.Component {
 
 // latest way to use react-router 2.x
 MyModal.contextTypes = {
-    // @see https://github.com/grommet/grommet/issues/441
-  router: React.PropTypes.object.isRequired
+  // @see https://github.com/grommet/grommet/issues/441
+  // eslint-disable-next-line react/forbid-prop-types
+  router: React.PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-  return({
-    loginNow: function(values) {
+  return ({
+    loginNow(values) {
       console.log('MyModal.js: ?.loginNow called => ', 'values=', values);
       return postJSON(getRoutePath('api/test'), {
         username: values.username,
-        password: values.password
-      }).then(function(resp) {
-        return (resp && resp.token)? resp.token:null;
-      }, function(err) {
-        return null;
-      });
+        password: values.password,
+      }).then((resp) => ((resp && resp.token) ? resp.token : null), (err) => err || null);
     },
-    showNotificationMessage: function(msg) {
+    showNotificationMessage(msg) {
       return dispatch({
         type: 'EVT_SHOW_NOTIFICATION',
         showNotification: true,
-        notificationMessage: msg
+        notificationMessage: msg,
       });
     },
-    close: function() {
+    close() {
       return dispatch({
         type: 'EVT_SHOW_MY_MODAL',
-        showMyModal: false
+        showMyModal: false,
       });
-    }
+    },
   });
 }
 export default connect(
-  function (storeState) {
+  (storeState) =>
     // store state to props
-    return {
-      showMyModal: storeState.app.showMyModal
-    };
-  },
-  mapDispatchToProps
+    ({
+      showMyModal: storeState.app.showMyModal,
+    }),
+  mapDispatchToProps,
 )(MyModal);

@@ -1,21 +1,22 @@
+/* eslint-disable no-restricted-syntax */
 // flatObject({a:'a1', b:{b1:'b1'}, c:{c1: 'c1'},
 //            {b: 1 } // 1 means ignore field 'b'
 //            {c: 2 } // 2 means spread field 'c'
 //           )
 // got: {a: 'a1', c:{c1: 'c1'}}
 function flatObject(obj, optionalIgnoreDict) {
-  let allKeys = Object.keys(obj);
-  let newObj = {};
-  for(let key of allKeys) {
-    if(!optionalIgnoreDict || !optionalIgnoreDict[key]) {
+  const allKeys = Object.keys(obj);
+  const newObj = {};
+  for (const key of allKeys) {
+    if (!optionalIgnoreDict || !optionalIgnoreDict[key]) {
       // copy element
       newObj[key] = obj[key];
-    } else if(optionalIgnoreDict[key] === 1){
+    } else if (optionalIgnoreDict[key] === 1) {
       // just ignore
       // do nothing
-    } else if(optionalIgnoreDict[key] === 2){
+    } else if (optionalIgnoreDict[key] === 2) {
       // spread obj[key] into newObj
-      for(let k of Object.keys(obj[key])) {
+      for (const k of Object.keys(obj[key])) {
         newObj[k] = obj[key][k];
       }
     }
@@ -26,12 +27,12 @@ function flatObject(obj, optionalIgnoreDict) {
 
 function isIE() {
   // @see https://github.com/gagle/js-ie-version/blob/master/lib/ie-version.js
-  //"!win.ActiveXObject" is evaluated to true in IE11
+  // "!win.ActiveXObject" is evaluated to true in IE11
   return window.ActiveXObject !== undefined;
 }
 
 function getRoutePath(p) {
-  return ('production' !== process.env.NODE_ENV? '/':'/') + (p? p:'');
+  return (process.env.NODE_ENV !== 'production' ? '/' : '/') + (p || '');
 }
 
 function trim(s) {
@@ -59,5 +60,5 @@ export {
   getRoutePath,
   trim,
   validatorRequired,
-  validatorAlphaNumeric
+  validatorAlphaNumeric,
 };

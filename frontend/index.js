@@ -21,9 +21,9 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'; // route saved into store
 import {
   getRoutePath
-} from 'CommonUtil/CommonUtil.js';
-import MSNotification from 'MSNotification/MSNotification.js';
-import rootReducer from 'Global/RootReducer.js';
+} from 'supports/Common/Common.support';
+import MSNotification from 'components/Ui/MSNotification/MSNotification';
+import rootReducer from 'redux/reducers/RootReducer';
 // Initialize store
 
 /* eslint-disable no-underscore-dangle */
@@ -82,7 +82,7 @@ const rootRoute = {
     getComponent: (nextState, cb) => {
       require.ensure([], require => {
         // use [yas] elisp error: Symbol's value as variable is void: \./Home/Home\.js if you prefer relative index.js
-        cb(null, require('Dashboard/Dashboard.js').default);
+        cb(null, require('components/Ui/Dashboard/Dashboard').default);
       });
     }
   },
@@ -91,7 +91,7 @@ const rootRoute = {
       path: 'sample',
       getComponent:(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('Sample/Sample.js').default);
+          cb(null, require('components/Ui/Sample/Sample').default);
         });
       }
     }

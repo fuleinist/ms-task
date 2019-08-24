@@ -8,10 +8,10 @@ import {
 
 import {
   getRoutePath
-} from 'CommonUtil/CommonUtil.js';
+} from 'supports/Common/Common.support';
 
-import MyTable from 'MyTable/MyTable.js';
-import MyModal from 'MyModal/MyModal.js';
+import MyTable from 'components/Ui/MyTable/MyTable';
+import MyModal from 'components/Ui/MyModal/MyModal';
 
 export class Sample extends React.Component {
 

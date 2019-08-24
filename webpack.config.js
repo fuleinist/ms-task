@@ -135,7 +135,7 @@ module.exports = {
     // root for es2015 import
     // @see http://moduscreate.com/es6-es2015-import-no-relative-path-webpack/
     root: [
-      path.resolve('./frontend/components')
+      path.resolve('./frontend')
     ]
   },
 
