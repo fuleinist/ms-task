@@ -12,8 +12,10 @@
   "license": "GPL",
   "dependencies": {
     "bootstrap": "3.3.7",
+    "es5-shim": "^4.5.13",
     "font-awesome": "4.7.0",
     "immutability-helper": "2.1.1",
+    "prop-types": "^15.7.2",
     "react": "15.4.2",
     "react-bootstrap": "0.30.7",
     "react-dom": "15.4.2",
@@ -45,7 +47,6 @@
     "css-modules-require-hook": "^4.2.3",
     "enzyme": "^3.4.4",
     "enzyme-adapter-react-15.4": "^1.0.6",
-    "es5-shim": "^4.5.9",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",

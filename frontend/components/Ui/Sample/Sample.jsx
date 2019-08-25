@@ -3,20 +3,21 @@ import { connect } from 'react-redux';
 import {
   Button,
   ButtonToolbar,
-  ButtonGroup
+  ButtonGroup,
 } from 'react-bootstrap';
 
 import {
-  getRoutePath
+  getRoutePath,
 } from 'supports/Common/Common.support';
 
 import MyTable from 'components/Ui/MyTable/MyTable';
-import MyModal from 'components/Ui/MyModal/MyModal';
+import Modal from 'components/Ui/MyModal/MyModal';
+import { showMyModal } from 'redux/actions/RootAction';
 
 export class Sample extends React.Component {
-
   constructor(props) {
     super(props);
+    this.showMyModal = this.showMyModal.bind(this);
     this.state = {
     };
   }
@@ -31,12 +32,12 @@ export class Sample extends React.Component {
       <div>
         <h1>Components samples</h1>
         <ButtonGroup>
-          <Button onClick={() => this.context.router.push(getRoutePath()) } >Goto Dashboard</Button>
+          <Button onClick={() => this.context.router.push(getRoutePath())}>Goto Dashboard</Button>
         </ButtonGroup>
         <h2>Modal, Button toolbar:</h2>
         <ButtonToolbar>
           <ButtonGroup>
-            <Button onClick={this.showMyModal.bind(this) }>Show my modal</Button>
+            <Button onClick={this.showMyModal}>Show my modal</Button>
           </ButtonGroup>
         </ButtonToolbar>
         <h2>Table:</h2>
@@ -47,7 +48,7 @@ export class Sample extends React.Component {
             </div>
           </div>
         </div>
-        <MyModal />
+        <Modal />
       </div>
     );
   }
@@ -55,26 +56,24 @@ export class Sample extends React.Component {
 
 // latest way to dispatch
 Sample.contextTypes = {
-    // @see https://github.com/grommet/grommet/issues/441
-  router: React.PropTypes.object.isRequired
+  // @see https://github.com/grommet/grommet/issues/441
+  // eslint-disable-next-line react/forbid-prop-types
+  router: React.PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-  return({
-    showMyModal: function() {
-      return dispatch({
-        type: 'EVT_SHOW_MY_MODAL',
-        showMyModal: true
-      });
-    }
+  return ({
+    showMyModal() {
+      return dispatch(showMyModal(true));
+    },
   });
 }
 
 export default connect(
-  function (storeState) {
+  (storeState) => {
     // store state to props
     return {
     };
   },
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Sample);

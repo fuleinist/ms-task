@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Notification } from 'react-notification';
+import { proptypes, defaultprops } from 'components/Ui/MSNotification/MSNotification.props';
+import { showNotification } from 'redux/actions/RootAction';
 
 export class MSNotification extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getNotificationMessage() {
     console.log('MSNotification.js: MSNotification.getNotificationMessage called => ', 'this.props.notificationMessage=', this.props.notificationMessage);
-    return this.props.notificationMessage? this.props.notificationMessage:'';
+    return this.props.notificationMessage ? this.props.notificationMessage : '';
   }
 
   render() {
@@ -23,10 +21,10 @@ export class MSNotification extends React.Component {
           top: '16px',
           left: 'auto',
           zIndex: 99999,
-          right: '-100%'
+          right: '-100%',
         }}
         activeBarStyle={{
-          right: '16px'
+          right: '16px',
         }}
         onDismiss={this.props.close}
         dismissAfter={3000}
@@ -36,24 +34,22 @@ export class MSNotification extends React.Component {
   }
 }
 
+MSNotification.propTypes = proptypes;
+MSNotification.defaultProps = defaultprops;
+
 function mapDispatchToProps(dispatch) {
   return ({
-    close: function() {
-      return dispatch({
-        type: 'EVT_SHOW_NOTIFICATION',
-        showNotification: false
-      });
-    }
+    close() {
+      return dispatch(showNotification(false));
+    },
   });
 }
 
 export default connect(
-  function (storeState) {
-    // store state to props
-    return {
-      showNotification: storeState.app.showNotification,
-      notificationMessage: storeState.app.notificationMessage
-    };
-  },
-  mapDispatchToProps
+  // store state to props
+  (storeState) => ({
+    showNotification: storeState.app.showNotification,
+    notificationMessage: storeState.app.notificationMessage,
+  }),
+  mapDispatchToProps,
 )(MSNotification);

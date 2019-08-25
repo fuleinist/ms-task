@@ -2,10 +2,11 @@
 //   <MSGlyphicon glyph="users" className="fa-4x" />
 //   Please note className is optional!
 import React from 'react';
+import { proptypes, defaultprops } from 'components/Ui/MSGlyphicon/MSGlyphicon.props';
 
-export default class MSGlyphicon extends React.Component {
+class MSGlyphicon extends React.Component {
   getClassName() {
-    return this.props.className? this.props.className:'';
+    return this.props.className ? this.props.className : '';
   }
 
   render() {
@@ -14,3 +15,8 @@ export default class MSGlyphicon extends React.Component {
     );
   }
 }
+
+MSGlyphicon.propTypes = proptypes;
+MSGlyphicon.defaultProps = defaultprops;
+
+export default MSGlyphicon;
