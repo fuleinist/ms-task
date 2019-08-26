@@ -1,4 +1,6 @@
-import { EVT_INIT_SAMPLE, EVT_SORT_SAMPLE, EVT_RESET_SAMPLE, EVT_SET_SORTING } from 'constants/redux/redux.constants';
+import {
+  EVT_INIT_SAMPLE, EVT_SORT_SAMPLE, EVT_RESET_SAMPLE, EVT_SET_SORTING,
+} from 'constants/redux/redux.constants';
 
 function SampleReducer(storeState = {}, action) {
   let finalStoreState;

@@ -14,7 +14,11 @@ class MyTable extends React.Component {
     console.log(this.props);
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps) {
+    if (this.props.sorting !== prevProps.sorting) {
+      console.log('sorting...');
+      this.props.sort(this.props.rows, this.props.sorting);
+    }
   }
 
   render() {
@@ -36,6 +40,11 @@ class MyTable extends React.Component {
           formatters: [
             headerformat,
           ],
+          transforms: [
+            (label) => ({
+              onClick: () => this.props.updateSort(label, this.props.sorting),
+            }),
+          ],
         },
       },
       {
@@ -56,9 +65,10 @@ class MyTable extends React.Component {
         property: 'tools',
         header: {
           label: 'Active',
+          name: 'tools',
           transforms: [
-            (label) => ({
-              onClick: () => this.props.updateSort(label, this.props.sorting),
+            (name) => ({
+              onClick: () => this.props.updateSort(name, this.props.sorting),
             }),
           ],
           formatters: [
@@ -113,8 +123,8 @@ const mapDispatchToProps = (dispatch) => ({
   init() {
     return dispatch(initSample());
   },
-  sort(row, sorting) {
-    return dispatch(sortSample(row, sorting));
+  sort(rows, sorting) {
+    return dispatch(sortSample(rows, sorting));
   },
   reset() {
     return dispatch(resetSample());

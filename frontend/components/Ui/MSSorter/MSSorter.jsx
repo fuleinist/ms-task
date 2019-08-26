@@ -6,8 +6,8 @@ const MSSorter = (props) => {
   const { sort } = props;
   return (
     <span style={{ margin: '0 5px' }} className="Sorter">
-      <span style={{ position: 'absolute', top: 5 }}><MSGlyphicon glyph="caret-up" className={sort === 'sorted-descending' ? 'hidden' : sort === 'sorted-ascending' ? 'highlighted' : null} /></span>
-      <span style={{ position: 'absolute', top: 13 }}><MSGlyphicon glyph="caret-down" className={sort === 'sorted-ascending' ? 'hidden' : sort === 'sorted-descending' ? 'highlighted' : null} /></span>
+      <span style={{ position: 'absolute', top: 5 }}><MSGlyphicon glyph="caret-up" className={sort === 'DESC' ? 'hidden' : sort === 'ASC' ? 'highlighted' : null} /></span>
+      <span style={{ position: 'absolute', top: 13 }}><MSGlyphicon glyph="caret-down" className={sort === 'ASC' ? 'hidden' : sort === 'DESC' ? 'highlighted' : null} /></span>
     </span>
   );
 };

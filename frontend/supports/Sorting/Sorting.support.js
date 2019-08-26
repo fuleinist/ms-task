@@ -30,9 +30,9 @@ const SORTING = {
       // eslint-disable-next-line no-param-reassign
       orderby = [];
       // eslint-disable-next-line no-plusplus
-      for (let x = 0; x < arr[0].length; x++) {
-        orderby.push('ASC');
-      }
+      // for (let x = 0; x < arr[0].length; x++) {
+      //   orderby.push('ASC');
+      // }
     }
 
     const multiSortRecursive = (a, b, index) => {

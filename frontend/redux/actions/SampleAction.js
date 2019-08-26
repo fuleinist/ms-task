@@ -2,6 +2,7 @@ import {
   EVT_INIT_SAMPLE, EVT_SORT_SAMPLE, EVT_RESET_SAMPLE, EVT_SET_SORTING,
 } from 'constants/redux/redux.constants';
 import { rows as ROWS } from 'components/Ui/MyTable/MyTable.utils';
+import SORTING from 'supports/Sorting/Sorting.support';
 
 /*
  * action creators
@@ -12,13 +13,20 @@ export function initSample() {
   return { type: EVT_INIT_SAMPLE, rows: ROWS };
 }
 
-export function sortSample(payload) {
+export const sortSample = async (rows, sorting) => {
   // Action to trigger sorting
-  const { rows } = payload;
+  let updatedrows = [...rows];
+  const columns = sorting.map((a) => a.name);
+  const orderby = sorting.map((a) => a.status);
+  console.log({ rows, columns, orderby });
+  if (sorting) {
+    updatedrows = SORTING.multiSort(rows, columns, orderby);
+    console.log(updatedrows);
+  }
   return {
-    type: EVT_SORT_SAMPLE, rows,
+    type: EVT_SORT_SAMPLE, rows: updatedrows,
   };
-}
+};
 
 export function setSorting(payload) {
   // Action to update sorting
