@@ -6,6 +6,7 @@ import {
   initSample, sortSample, resetSample, setSorting,
 } from 'redux/actions/SampleAction';
 import { countries, setSort } from 'components/Ui/MyTable/MyTable.utils';
+import { proptypes, defaultprops } from 'components/Ui/MyTable/MyTable.props';
 
 class MyTable extends React.Component {
   componentWillMount() {
@@ -112,6 +113,9 @@ class MyTable extends React.Component {
     ) : null;
   }
 }
+
+MyTable.propTypes = proptypes;
+MyTable.defaultProps = defaultprops;
 
 const mapDispatchToProps = (dispatch) => ({
   // initSample(values) {

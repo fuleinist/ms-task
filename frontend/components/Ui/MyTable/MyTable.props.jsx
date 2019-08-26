@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types';
 
 export const proptypes = {
-  notificationMessage: PropTypes.string.isRequired,
-  showNotification: PropTypes.bool,
-  close: PropTypes.bool,
+  init: PropTypes.func,
+  sort: PropTypes.func,
+  find: PropTypes.func,
+  updateSort: PropTypes.func,
+  sorting: PropTypes.array,
+  rows: PropTypes.array,
 };
 
 export const defaultprops = {
-  notificationMessage: '',
-  showNotification: false,
-  close: false,
+  init: () => {},
+  sort: () => {},
+  find: () => {},
+  updateSort: () => {},
+  sorting: [],
+  rows: [],
 };
