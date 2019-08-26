@@ -1,11 +1,13 @@
 import { createStore, combineReducers } from 'redux';
 import rootReducer from 'redux/reducers/RootReducer';
+import sampleReducer from 'redux/reducers/SampleReducer';
 import { routerReducer } from 'react-router-redux';
 
 // Initialize store
 const store = createStore(
   combineReducers({
     app: rootReducer,
+    sample: sampleReducer,
     routing: routerReducer,
   }),
   {}, /* initial state */

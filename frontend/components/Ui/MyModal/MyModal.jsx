@@ -1,20 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { LocalForm } from 'react-redux-form';
+import { Button, Modal } from 'react-bootstrap';
 import MSFormInput from 'components/Ui/MSFormInput/MSFormInput';
-import {
-  getRoutePath,
-  postJSON,
-} from 'services/Http/Http.service';
-import {
-  Button,
-  Modal,
-} from 'react-bootstrap';
+import { validatorRequired, validatorAlphaNumeric, getRoutePath } from 'supports/Common/Common.support';
+import { postJSON } from 'services/Http/Http.service';
+import { proptypes, defaultprops } from 'components/Ui/MyModal/MyModal.props';
+import { showNotification, showMyModal } from 'redux/actions/RootAction';
 
-import {
-  validatorRequired,
-  validatorAlphaNumeric,
-} from 'supports/Common/Common.support';
 
 export class MyModal extends React.Component {
   constructor(props) {
@@ -26,9 +19,8 @@ export class MyModal extends React.Component {
       password: { required: validatorRequired },
     };
     this.state = {
-      username: '',
-      password: '',
-      resultMessage: null,
+      // eslint-disable-next-line react/no-unused-state
+      username: '', password: '', resultMessage: null,
     };
   }
 
@@ -54,7 +46,7 @@ export class MyModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.showMyModal} onHide={this.close}>
+      <Modal onHide={this.close} show={this.props.showMyModal}>
         <LocalForm
           model="user"
           validators={this.formValidators}
@@ -94,6 +86,9 @@ export class MyModal extends React.Component {
   }
 }
 
+MyModal.propTypes = proptypes;
+MyModal.defaultProps = defaultprops;
+
 // latest way to use react-router 2.x
 MyModal.contextTypes = {
   // @see https://github.com/grommet/grommet/issues/441
@@ -111,25 +106,17 @@ function mapDispatchToProps(dispatch) {
       }).then((resp) => ((resp && resp.token) ? resp.token : null), (err) => err || null);
     },
     showNotificationMessage(msg) {
-      return dispatch({
-        type: 'EVT_SHOW_NOTIFICATION',
-        showNotification: true,
-        notificationMessage: msg,
-      });
+      return dispatch(showNotification({ showNotification: true, notificationMessage: msg }));
     },
     close() {
-      return dispatch({
-        type: 'EVT_SHOW_MY_MODAL',
-        showMyModal: false,
-      });
+      return dispatch(showMyModal(false));
     },
   });
 }
 export default connect(
-  (storeState) =>
-    // store state to props
-    ({
-      showMyModal: storeState.app.showMyModal,
-    }),
+  // store state to props
+  (storeState) => ({
+    showMyModal: storeState.app.showMyModal,
+  }),
   mapDispatchToProps,
 )(MyModal);

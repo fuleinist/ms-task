@@ -35,7 +35,8 @@ function getFilesToCopy() {
     {from: 'node_modules/bootstrap/dist/css/*', to: '../css/', flatten:true },
     {from: 'node_modules/bootstrap/dist/fonts/*', to: '../fonts/', flatten:true },
     {from: 'node_modules/font-awesome/css/*', to: '../css/', flatten:true },
-    {from: 'node_modules/font-awesome/fonts/*', to: '../fonts', flatten:true}
+    {from: 'node_modules/font-awesome/fonts/*', to: '../fonts', flatten:true},
+    {from: 'frontend/styles/*', to: '../css/', flatten:true}
   ];
   // if(process.env.NODE_ENV === 'development') {
   //   list.push({from:'src/main/resources/static/images/*', to: '../images', flatten:true});

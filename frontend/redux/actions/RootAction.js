@@ -9,7 +9,7 @@ export function doSomething(text) {
 }
 
 export function showNotification(payload) {
-  return { type: EVT_SHOW_NOTIFICATION, showNotification: payload };
+  return { type: EVT_SHOW_NOTIFICATION, ...payload };
 }
 
 export function showMyModal(payload) {

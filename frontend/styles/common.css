@@ -1,17 +1,19 @@
-/* global variables */
-$colorBlue: #436E8F;
-$colorHalfBlue: #A1C2DB;
-$colorRed: #D43D29;
-$colorOrange: #D7863E;
-$colorAmber: $colorOrange;
-$colorGreen: #7DBC2C;
-$colorPaleGrey: #F2F2F2;
-$colorGrey: #AFAFAF;
-$colorError: #A94442;
-$colorBorder:#D0D0D0;
+:root {
+  /* global variables */
+  --colorBlue: #436E8F;
+  --colorHalfBlue: #A1C2DB;
+  --colorRed: #D43D29;
+  --colorOrange: #D7863E;
+  --colorAmber: $colorOrange;
+  --colorGreen: #7DBC2C;
+  --colorPaleGrey: #F2F2F2;
+  --colorGrey: #AFAFAF;
+  --colorError: #A94442;
+  --colorBorder:#D0D0D0;
 
-$tableToolbarHeight: 40px;
-$tableToolbarMargin: 15px;
+  --tableToolbarHeight: 40px;
+  --tableToolbarMargin: 15px;
+}
 
 /* mixins */
 @define-mixin shadow-a {

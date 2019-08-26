@@ -1,0 +1,11 @@
+.Sorter i {
+  color: var(--colorPaleGrey);
+}
+
+.Sorter .highlighted {
+  color: var(--colorGrey);
+}
+
+.Sorter .hidden {
+  visibility: hidden;
+};
