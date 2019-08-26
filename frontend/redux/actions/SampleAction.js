@@ -13,12 +13,11 @@ export function initSample() {
   return { type: EVT_INIT_SAMPLE, rows: ROWS };
 }
 
-export const sortSample = async (rows, sorting) => {
+export const sortSample = (rows, sorting) => {
   // Action to trigger sorting
   let updatedrows = [...rows];
   const columns = sorting.map((a) => a.name);
   const orderby = sorting.map((a) => a.status);
-  console.log({ rows, columns, orderby });
   if (sorting) {
     updatedrows = SORTING.multiSort(rows, columns, orderby);
     console.log(updatedrows);

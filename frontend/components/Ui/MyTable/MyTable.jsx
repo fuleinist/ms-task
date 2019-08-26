@@ -17,7 +17,7 @@ class MyTable extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.sorting !== prevProps.sorting) {
-      console.log('sorting...');
+      console.log(`sorting...${this.props.sorting}`);
       this.props.sort(this.props.rows, this.props.sorting);
     }
   }

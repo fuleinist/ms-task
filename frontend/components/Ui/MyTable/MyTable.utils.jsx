@@ -27,7 +27,7 @@ export const countries = {
 export const SortStatus = ['NA', 'ASC', 'DESC'];
 
 export const setSort = (target, sorting) => {
-  const SORTING = sorting ? [...sorting] : [{ name: target, status: 'ASC' }];
+  const SORTING = sorting && sorting.length ? [...sorting] : [{ name: target, status: 'ASC' }];
   // eslint-disable-next-line no-return-assign
   const UPDATED_SORTING = sorting ? SORTING.map((item) => {
     let updateitem = { ...item };
