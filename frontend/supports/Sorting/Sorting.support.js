@@ -21,6 +21,7 @@ const SORTING = {
   * returns {array}
   */
   multiSort: (arr, columns, orderby) => {
+    if (!arr || arr.length < 1) { return []; }
     if (typeof columns === 'undefined') {
       // eslint-disable-next-line no-param-reassign
       columns = [];

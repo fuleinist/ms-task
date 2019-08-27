@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount, render } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { createStore, combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import rootReducer from 'redux/reducers/RootReducer';
 import {
   validatorRequired,
