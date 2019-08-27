@@ -1,3 +1,7 @@
+import {
+  SORT_ASC, SORT_DESC,
+} from 'constants/common/common.constants';
+
 /**
  * Convert an Array to an Object.
  *
@@ -30,16 +34,19 @@ const SORTING = {
       // eslint-disable-next-line no-param-reassign
       orderby = [];
       // eslint-disable-next-line no-plusplus
-      // for (let x = 0; x < arr[0].length; x++) {
-      //   orderby.push('ASC');
-      // }
+      for (let x = 0; x < arr[0].length; x++) {
+        orderby.push(SORT_ASC);
+      }
     }
 
+    // eslint-disable-next-line no-restricted-globals
+    const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
+
     const multiSortRecursive = (a, b, index) => {
-      const direction = orderby[index] === 'DESC' ? 1 : 0;
-      const isNumeric = !(+a[columns[index]] - +b[columns[index]]);
-      const x = isNumeric ? +a[columns[index]] : a[columns[index]].toLowerCase();
-      const y = isNumeric ? +b[columns[index]] : b[columns[index]].toLowerCase();
+      const direction = orderby[index] === SORT_DESC ? 1 : 0;
+      const isNumber = isNumeric(a[columns[index].toLowerCase()]) && isNumeric(b[columns[index].toLowerCase()]);
+      const x = isNumber ? +a[columns[index].toLowerCase()] : a[columns[index].toLowerCase()].toLowerCase();
+      const y = isNumber ? +b[columns[index].toLowerCase()] : b[columns[index].toLowerCase()].toLowerCase();
 
       if (x < y) {
         return direction === 0 ? -1 : 1;
@@ -50,7 +57,9 @@ const SORTING = {
       return direction === 0 ? 1 : -1;
     };
 
-    return arr.sort((a, b) => multiSortRecursive(a, b, 0));
+    arr.sort((a, b) => multiSortRecursive(a, b, 0));
+    const result = [...arr];
+    return result;
   },
 };
 

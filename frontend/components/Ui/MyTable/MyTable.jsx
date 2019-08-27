@@ -5,21 +5,42 @@ import MSSorter from 'components/Ui/MSSorter/MSSorter';
 import {
   initSample, sortSample, resetSample, setSorting,
 } from 'redux/actions/SampleAction';
-import { countries, setSort } from 'components/Ui/MyTable/MyTable.utils';
+import {
+  countries, setSort, setSortGroup, keyMap,
+} from 'components/Ui/MyTable/MyTable.utils';
 import { proptypes, defaultprops } from 'components/Ui/MyTable/MyTable.props';
 
 class MyTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ctrlKeyDown: false,
+    };
+  }
+
   componentWillMount() {
     // call init if we can
     this.props.init();
-    console.log(this.props);
+    keyMap(
+      'ctrlKey',
+      (keydown) => {
+        this.setState({
+          ctrlKeyDown: keydown,
+        });
+      },
+    ).init();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.sorting !== prevProps.sorting) {
-      console.log(`sorting...${this.props.sorting}`);
+      // console.log(`sorting...${JSON.stringify(this.props.sorting)}`);
       this.props.sort(this.props.rows, this.props.sorting);
     }
+  }
+
+  componentWillUnmount() {
+    // call clear
+    keyMap('ctrlKey').clear();
   }
 
   render() {
@@ -43,7 +64,7 @@ class MyTable extends React.Component {
           ],
           transforms: [
             (label) => ({
-              onClick: () => this.props.updateSort(label, this.props.sorting),
+              onClick: () => this.props.updateSort(label, this.props.sorting, this.state.ctrlKeyDown),
             }),
           ],
         },
@@ -54,7 +75,7 @@ class MyTable extends React.Component {
           label: 'Name',
           transforms: [
             (label) => ({
-              onClick: () => this.props.updateSort(label, this.props.sorting),
+              onClick: () => this.props.updateSort(label, this.props.sorting, this.state.ctrlKeyDown),
             }),
           ],
           formatters: [
@@ -69,7 +90,7 @@ class MyTable extends React.Component {
           name: 'tools',
           transforms: [
             (name) => ({
-              onClick: () => this.props.updateSort(name, this.props.sorting),
+              onClick: () => this.props.updateSort(name, this.props.sorting, this.state.ctrlKeyDown),
             }),
           ],
           formatters: [
@@ -88,7 +109,7 @@ class MyTable extends React.Component {
           label: 'Country',
           transforms: [
             (label) => ({
-              onClick: () => this.props.updateSort(label, this.props.sorting),
+              onClick: () => this.props.updateSort(label, this.props.sorting, this.state.ctrlKeyDown),
             }),
           ],
           formatters: [
@@ -133,8 +154,8 @@ const mapDispatchToProps = (dispatch) => ({
   reset() {
     return dispatch(resetSample());
   },
-  updateSort(e, sorting) {
-    const updatedSorting = setSort(e, sorting);
+  updateSort(e, sorting, multiCol) {
+    const updatedSorting = multiCol ? setSortGroup(e, sorting) : setSort(e, sorting);
     return dispatch(setSorting(updatedSorting));
   },
 });

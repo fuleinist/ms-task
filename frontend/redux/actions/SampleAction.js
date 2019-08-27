@@ -18,9 +18,8 @@ export const sortSample = (rows, sorting) => {
   let updatedrows = [...rows];
   const columns = sorting.map((a) => a.name);
   const orderby = sorting.map((a) => a.status);
-  if (sorting) {
+  if (sorting && sorting.length) {
     updatedrows = SORTING.multiSort(rows, columns, orderby);
-    console.log(updatedrows);
   }
   return {
     type: EVT_SORT_SAMPLE, rows: updatedrows,

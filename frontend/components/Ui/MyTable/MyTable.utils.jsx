@@ -1,3 +1,7 @@
+import {
+  SORT_UNSORTED, SORT_ASC, SORT_DESC,
+} from 'constants/common/common.constants';
+
 export const rows = [
   {
     id: 100, name: 'John', tools: { hammer: true }, country: 'fi',
@@ -24,27 +28,57 @@ export const countries = {
   dk: 'Denmark',
 };
 
-export const SortStatus = ['NA', 'ASC', 'DESC'];
+export const SortStatus = [SORT_UNSORTED, SORT_ASC, SORT_DESC];
 
 export const setSort = (target, sorting) => {
-  const SORTING = sorting && sorting.length ? [...sorting] : [{ name: target, status: 'ASC' }];
-  // eslint-disable-next-line no-return-assign
-  const UPDATED_SORTING = sorting ? SORTING.map((item) => {
+  const setSortItem = (item) => {
     let updateitem = { ...item };
     if (updateitem.name === target) {
       updateitem.status = SortStatus[SortStatus.indexOf(updateitem.status) < SortStatus.length - 1 ? SortStatus.indexOf(updateitem.status) + 1 : 0];
     } else {
-      updateitem = { name: target, status: 'ASC' };
+      updateitem = { name: target, status: SORT_ASC };
     }
     return updateitem;
-  }) : SORTING;
+  };
+  const SORTING = sorting && sorting.length === 1 ? [...sorting] : [{ name: target, status: SORT_ASC }];
+  // eslint-disable-next-line no-return-assign
+  const UPDATED_SORTING = sorting && sorting.length ? SORTING.map(setSortItem).filter((a) => a.status !== SORT_UNSORTED) : SORTING;
   return UPDATED_SORTING;
 };
 
 export const setSortGroup = (target, sorting) => {
-  const SORTING = [...sorting] || [];
+  // same sorting update but push array all new sortings
+  const SORTING = sorting && sorting.length ? [...sorting] : [{ name: target, status: SORT_ASC }];
+  const targetSorted = sorting.findIndex((e) => e.name === target);
+  const setSortItem = (item) => {
+    const updateitem = { ...item };
+    if (updateitem.name === target) {
+      updateitem.status = SortStatus[SortStatus.indexOf(updateitem.status) < SortStatus.length - 1 ? SortStatus.indexOf(updateitem.status) + 1 : 0];
+    }
+    return updateitem;
+  };
   // eslint-disable-next-line no-return-assign
-  SORTING.map((e) => e.status = e.name === target ? SortStatus[SortStatus.indexOf(e.status) === SortStatus.length ? SortStatus.indexOf(e.status) + 1 : 0] : SortStatus[0]);
-  if (!SORTING.find((e) => e.name === target)) { SORTING.push({ name: target, status: 'ASC' }); }
-  return SORTING;
+  const UPDATED_SORTING = sorting && sorting.length ? SORTING.map(setSortItem).filter((a) => a.status !== SORT_UNSORTED) : SORTING;
+  if (targetSorted === -1 && sorting && sorting.length) {
+    UPDATED_SORTING.unshift({ name: target, status: SORT_ASC });
+  }
+  // console.log({sorting, UPDATED_SORTING, targetsort: { name: target, status: 'ASC' }, targetSorted, msg: `setSort to ${JSON.stringify(UPDATED_SORTING)}`});
+  return UPDATED_SORTING;
+};
+
+export const keyMap = (key, callback = () => {}) => {
+  const listener = (event) => {
+    // Bind key by name, e.g. ctrlKey
+    callback(event[key]);
+  };
+  return {
+    init: () => {
+      window.addEventListener('keydown', listener);
+      window.addEventListener('keyup', listener);
+    },
+    clear: () => {
+      window.removeEventListener('keydown', listener);
+      window.removeEventListener('keyup', listener);
+    },
+  };
 };
