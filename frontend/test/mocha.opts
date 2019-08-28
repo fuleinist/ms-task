@@ -1,2 +1,2 @@
-# mocha.opts
---recursive "frontend/*.test.js" "frontend/*.spec.js"
+--require frontend/test/.setup.js 
+frontend/**/**/*.{test,spec}.{js,jsx} frontend/*/**/**/*.{test,spec}.{js,jsx}

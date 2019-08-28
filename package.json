@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "cross-env NODE_PATH=frontend mocha --recursive frontend/test/.setup.js frontend/*/*/*.test.jsx frontend/*/*/*/*.test.jsx",
+    "test": "cross-env NODE_PATH=frontend mocha --opts frontend/test/mocha.opts",
     "start": "concurrently --kill-others-on-fail \"npm run devbuild\" \"cross-env MOCK_HTTP=true TARGET_ENV=development webpack-dev-server --content-base frontend-dist/ --port 3333 --host 0.0.0.0\"",
     "devbuild": "cross-env NODE_ENV=development webpack",
     "clean": "rimraf frontend-dist/*"
